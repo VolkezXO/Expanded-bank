@@ -9,9 +9,7 @@ import net.runelite.api.events.ScriptPostFired;
 import net.runelite.api.events.WidgetClosed;
 import net.runelite.api.events.WidgetLoaded;
 import net.runelite.api.gameval.InterfaceID;
-import net.runelite.api.widgets.ComponentID;
 import net.runelite.api.widgets.Widget;
-import net.runelite.api.widgets.WidgetID;
 import net.runelite.api.widgets.WidgetPositionMode;
 import net.runelite.api.widgets.WidgetSizeMode;
 import net.runelite.client.callback.ClientThread;
@@ -69,7 +67,7 @@ public class ExpandedBankPlugin extends Plugin
 	public void onWidgetLoaded(WidgetLoaded event)
 	{
 		int groupId = event.getGroupId();
-		if (groupId == WidgetID.BANK_GROUP_ID || groupId == InterfaceID.SEED_VAULT)
+		if (groupId == InterfaceID.BANKMAIN || groupId == InterfaceID.SEED_VAULT)
 		{
 			needBankExpansionUpdate = true;
 		}
@@ -79,7 +77,7 @@ public class ExpandedBankPlugin extends Plugin
 	public void onWidgetClosed(WidgetClosed event)
 	{
 		int groupId = event.getGroupId();
-		if (groupId == WidgetID.BANK_GROUP_ID || groupId == InterfaceID.SEED_VAULT)
+		if (groupId == InterfaceID.BANKMAIN || groupId == InterfaceID.SEED_VAULT)
 		{
 			bankExpanded = false;
 			needBankExpansionUpdate = false;
@@ -105,7 +103,7 @@ public class ExpandedBankPlugin extends Plugin
 	{
 		if (!client.isResized()) return;
 
-		Widget bankWidget = client.getWidget(ComponentID.BANK_CONTAINER);
+		Widget bankWidget = client.getWidget(InterfaceID.Bankmain.UNIVERSE);
 		Widget seedVaultWidget = client.getWidget(InterfaceID.SEED_VAULT, 1);
 
 		boolean bankOpen = (bankWidget != null && !bankWidget.isSelfHidden());
@@ -268,7 +266,7 @@ public class ExpandedBankPlugin extends Plugin
 
 	private boolean isChatboxClosed()
 	{
-		Widget chatboxFrame = client.getWidget(ComponentID.CHATBOX_FRAME);
+		Widget chatboxFrame = client.getWidget(InterfaceID.Chatbox.MES_LAYER_HIDE);
 		return chatboxFrame == null || chatboxFrame.isHidden();
 	}
 }
