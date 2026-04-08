@@ -89,7 +89,7 @@ public class ExpandedBankPlugin extends Plugin
 	public void onScriptPostFired(ScriptPostFired event)
 	{
 		int scriptId = event.getScriptId();
-		if (scriptId == 909 || scriptId == 175 || scriptId == 178 ||
+		if (scriptId == 909 || scriptId == 175 || scriptId == 178 || scriptId == 281 ||
 				scriptId == ScriptID.MESSAGE_LAYER_OPEN || scriptId == ScriptID.MESSAGE_LAYER_CLOSE)
 		{
 			if (bankExpanded || needBankExpansionUpdate)
@@ -142,7 +142,8 @@ public class ExpandedBankPlugin extends Plugin
 		{
 			Widget osbParent = hudContainer.getParent();
 			boolean isChatClosed = isChatboxClosed();
-			boolean shouldExpand = config.alwaysExpand() || isChatClosed;
+			boolean isSearching = isSearchPromptOpen();
+			boolean shouldExpand = (config.alwaysExpand() || isChatClosed) && !isSearching;
 
 			if (shouldExpand)
 			{
@@ -201,6 +202,47 @@ public class ExpandedBankPlugin extends Plugin
 				}
 			}
 		}
+	}
+
+	private boolean isSearchPromptOpen()
+	{
+		for (int i = 0; i < 60; i++)
+		{
+			Widget child = client.getWidget(InterfaceID.CHATBOX, i);
+			if (child != null && !child.isHidden())
+			{
+				if (hasPromptText(child)) return true;
+
+				Widget[] dynamicChildren = child.getDynamicChildren();
+				if (dynamicChildren != null)
+				{
+					for (Widget dynChild : dynamicChildren)
+					{
+						if (hasPromptText(dynChild)) return true;
+					}
+				}
+
+				Widget[] nestedChildren = child.getNestedChildren();
+				if (nestedChildren != null)
+				{
+					for (Widget nestedChild : nestedChildren)
+					{
+						if (hasPromptText(nestedChild)) return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	private boolean hasPromptText(Widget widget)
+	{
+		if (widget == null || widget.isHidden()) return false;
+		String text = widget.getText();
+		if (text == null || text.isEmpty()) return false;
+
+		String lower = text.toLowerCase();
+		return lower.contains("show items whose") || lower.contains("enter amount");
 	}
 
 	private void restoreLayout()
