@@ -1,4 +1,4 @@
-package com.volkezxo;
+package com.expandedbank;
 
 import net.runelite.client.RuneLite;
 import net.runelite.client.externalplugins.ExternalPluginManager;

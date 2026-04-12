@@ -1,4 +1,4 @@
-package com.volkezxo;
+package com.expandedbank;
 
 import com.google.inject.Provides;
 import javax.inject.Inject;
