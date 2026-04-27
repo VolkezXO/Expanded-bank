@@ -37,10 +37,14 @@ public class ExpandedBankPlugin extends Plugin
 	private ClientThread clientThread;
 
 	@Inject
+	private net.runelite.client.eventbus.EventBus eventBus;
+
+	@Inject
 	private ExpandedBankConfig config;
 
 	private boolean bankExpanded = false;
 	private boolean needBankExpansionUpdate = false;
+	private boolean isRebuildingBank = false;
 
 	@Override
 	protected void startUp() throws Exception
@@ -66,6 +70,8 @@ public class ExpandedBankPlugin extends Plugin
 	@Subscribe
 	public void onWidgetLoaded(WidgetLoaded event)
 	{
+		if (isRebuildingBank) return;
+
 		int groupId = event.getGroupId();
 		if (groupId == InterfaceID.BANKMAIN || groupId == InterfaceID.SEED_VAULT)
 		{
@@ -132,6 +138,12 @@ public class ExpandedBankPlugin extends Plugin
 						.setSource(activeWidget)
 						.build()
 						.run();
+
+				isRebuildingBank = true;
+				WidgetLoaded rebuildEvent = new WidgetLoaded();
+				rebuildEvent.setGroupId(InterfaceID.BANKMAIN);
+				eventBus.post(rebuildEvent);
+				isRebuildingBank = false;
 			});
 		}
 

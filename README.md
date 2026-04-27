@@ -29,9 +29,9 @@ A RuneLite plugin that dynamically expands the Bank and Seed Vault interfaces to
 ### Always Expand
 When enabled, this feature ensures the bank interface is always maximized by automatically hiding the chatbox visuals whenever the bank is opened and restoring them when the bank is closed.
 
-| Always Expand: OFF                                          | Always Expand: ON                                         |
-|:------------------------------------------------------------|:----------------------------------------------------------|
-| ![Always Expand Disabled](media/always-expand-disabled.gif) | ![Always Expand Enabled](media/always-expand-enabled.gif) |
+| Always Expand: OFF                                           | Always Expand: ON                                          |
+|:-------------------------------------------------------------|:-----------------------------------------------------------|
+| ![Always Expand Disabled](media/always-expand-disabled.webp) | ![Always Expand Enabled](media/always-expand-enabled.webp) |
 
 ---
 
